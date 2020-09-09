@@ -3,6 +3,7 @@ package cn.edu.bupt.admin.service;
 import cn.edu.bupt.admin.dao.AdminDao;
 import cn.edu.bupt.admin.model.Admin;
 import cn.edu.bupt.exception.AdminAccessPermissionException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -10,7 +11,7 @@ import javax.annotation.Resource;
 @Service
 public class AdminServiceImpl implements AdminService{
 
-    @Resource(name="AdminDao")
+    @Autowired
     AdminDao adminDao;
 
     public void login(Admin admin) throws AdminAccessPermissionException {
