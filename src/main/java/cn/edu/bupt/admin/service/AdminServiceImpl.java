@@ -1,11 +1,9 @@
 package cn.edu.bupt.admin.service;
 
-import cn.edu.bupt.admin.adminexception.AdminAccessPermissionException;
 import cn.edu.bupt.admin.dao.AdminDao;
 import cn.edu.bupt.admin.model.Admin;
-import org.springframework.beans.factory.annotation.Autowired;
+import cn.edu.bupt.exception.AdminAccessPermissionException;
 import org.springframework.stereotype.Service;
-import org.springframework.web.portlet.bind.annotation.ResourceMapping;
 
 import javax.annotation.Resource;
 

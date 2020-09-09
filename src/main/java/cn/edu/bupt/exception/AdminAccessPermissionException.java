@@ -1,4 +1,4 @@
-package cn.edu.bupt.admin.adminexception;
+package cn.edu.bupt.exception;
 
 
 public class AdminAccessPermissionException extends Exception {
