@@ -1,8 +1,8 @@
 package cn.edu.bupt.admin.handler;
 
-import cn.edu.bupt.admin.adminexception.AdminAccessPermissionException;
 import cn.edu.bupt.admin.model.Admin;
 import cn.edu.bupt.admin.service.AdminService;
+import cn.edu.bupt.exception.AdminAccessPermissionException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.portlet.ModelAndView;

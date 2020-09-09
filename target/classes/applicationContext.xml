@@ -16,5 +16,9 @@
     <context:property-placeholder location="classpath:jdbc.properties"/>
     <import resource="dispatcherServlet.xml"/>
     <import resource="spring-db.xml"/>
+    <import resource="spring-mybatis.xml"/>
+    <import resource="spring-mvc.xml"/>
+    <import resource="spring-service.xml"/>
+    <import resource="spring-tx.xml"/>
 
 </beans>
