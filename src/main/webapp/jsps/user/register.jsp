@@ -27,16 +27,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   	<div align="center">
 		<h1>用户注册页面</h1>
 		<font color="red">${registerError.message }</font>
-		<br  action="<c:url value='/user/register.do'/>" method="POST">
+		<form action="<c:url value='/user/register.do'/>" method="POST">
 			用户名：<input type="text" name="username" value="${user.username }"/></br>
 			密码：<input type="password" name="password" value="${user.password }"/><br/>
 			邮箱：<input type="text" name="email" value="${user.email}"/></br>
 			手机号：<input type="text" name="phone" value="${user.phone }"/></br>
-			邮箱：<input type="text" name="email" value="${user.email }"/></br>
 			用户描述：<input type="text" name="userDescription" value="${user.userDescription }"/></br>
-			性别：男<input type="radio" name="sex" value="男"/>
-			女<input type="radio" name="sex" value="女}"/></br>
-			入学年份：<input type="text" name="year" value="${user.year}"></br>
+			性别：男<input type="radio" name="sex" value="M"/>
+			女<input type="radio" name="sex" value="F"/></br>
+			入学年份：<input type="date" min="1970-01-01" max="2099-12-31" name="year" value="${user.year}"></br>
 			公寓号：<input type="text" name="department" value="${user.department}"></br>
 			<input type="submit" value="注册"/>
 		</form>

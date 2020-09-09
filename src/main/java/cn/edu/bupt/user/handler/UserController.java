@@ -2,6 +2,7 @@ package cn.edu.bupt.user.handler;
 
 import cn.edu.bupt.user.dao.repository.UserRepository;
 import cn.edu.bupt.user.model.User;
+import cn.edu.bupt.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,11 +19,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class UserController {
 
     @Autowired
-    UserRepository userRepository;
+    UserService userService;
 
-    @RequestMapping("/selUser.do")
-    public void selUser(String username) {
-        User user = userRepository.queryByUsername(username);
-        System.out.println(user);
+    @RequestMapping("/register.do")
+    public void selUser(User user) {
+        userService.register(user);
     }
 }

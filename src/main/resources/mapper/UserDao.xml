@@ -56,4 +56,15 @@
         SELECT <include refid="selectMap"/>
         FROM user where username=#{unique} or phone=#{unique} or email=#{unique}
     </select>
+
+    <!-- 插入用户 -->
+    <insert id="insertUser" parameterType="UserDo">
+        INSERT into user
+        (user_id, username, password, email, phone, star,
+        report, user_description, sex, year, department, user_status)
+        values
+        (#{userId}, #{username}, #{password}, #{email},
+        #{phone}, #{star}, #{report}, #{userDescription},
+        #{sex}, #{year}, #{department}, #{userStatus})
+    </insert>
 </mapper>

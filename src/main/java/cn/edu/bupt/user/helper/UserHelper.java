@@ -47,4 +47,5 @@ public class UserHelper {
         userDo.setUserStatus(user.getUserStatus().getCode());
         return userDo;
     }
+
 }

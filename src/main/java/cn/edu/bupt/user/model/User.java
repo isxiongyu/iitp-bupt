@@ -1,6 +1,7 @@
 package cn.edu.bupt.user.model;
 
 import cn.edu.bupt.enums.UserStatus;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
 
@@ -29,6 +30,7 @@ public class User {
     /**
      * 入学年份
      */
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date year;
     /**
      * 公寓号
