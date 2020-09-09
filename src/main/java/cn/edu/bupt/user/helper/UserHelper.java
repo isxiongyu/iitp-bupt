@@ -3,6 +3,7 @@ package cn.edu.bupt.user.helper;
 import cn.edu.bupt.enums.UserStatus;
 import cn.edu.bupt.user.dao.UserDo;
 import cn.edu.bupt.user.model.User;
+import org.springframework.stereotype.Component;
 
 /**
  * ClassName: UserHelper
@@ -10,6 +11,8 @@ import cn.edu.bupt.user.model.User;
  * Create by xiongyu
  * Date: 2020/9/9 1:22 下午
  */
+
+@Component
 public class UserHelper {
     public User convert2Model(UserDo userDo) {
         User user = new User();
@@ -26,5 +29,22 @@ public class UserHelper {
         user.setYear(userDo.getYear());
         user.setUserStatus(UserStatus.getByCode(userDo.getUserStatus()));
         return user;
+    }
+
+    public UserDo convert2Do(User user) {
+        UserDo userDo = new UserDo();
+        userDo.setUserId(user.getUserId());
+        userDo.setDepartment(user.getDepartment());
+        userDo.setEmail(user.getEmail());
+        userDo.setPassword(user.getPassword());
+        userDo.setPhone(user.getPhone());
+        userDo.setReport(user.getReport());
+        userDo.setSex(user.getSex());
+        userDo.setStar(user.getStar());
+        userDo.setUserDescription(user.getUserDescription());
+        userDo.setUsername(user.getUsername());
+        userDo.setYear(user.getYear());
+        userDo.setUserStatus(user.getUserStatus().getCode());
+        return userDo;
     }
 }

@@ -12,11 +12,11 @@ import java.util.Map;
  * Date: 2020/9/8 11:44 下午
  */
 public interface UserDao {
-    User queryByUsername(String username);
-    User queryByPhone(String phone);
-    User queryByEmail(String email);
-    List<User> queryByDepartment(int department);
-    User queryBy3Unique(Map<String, String> params);
-    User queryByUnique(String unique);
-    int insertUser(User user);
+    UserDo queryByUsername(String username);
+    UserDo queryByPhone(String phone);
+    UserDo queryByEmail(String email);
+    List<UserDo> queryByDepartment(int department);
+    UserDo queryBy3Unique(Map<String, String> params);
+    UserDo queryByUnique(String unique);
+    int insertUser(UserDo user);
 }

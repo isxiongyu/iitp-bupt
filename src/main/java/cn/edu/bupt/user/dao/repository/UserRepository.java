@@ -1,6 +1,7 @@
 package cn.edu.bupt.user.dao.repository;
 
 import cn.edu.bupt.user.dao.UserDao;
+import cn.edu.bupt.user.helper.UserHelper;
 import cn.edu.bupt.user.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Repository;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * ClassName: UserRepository
@@ -20,30 +22,33 @@ import java.util.Map;
 public class UserRepository {
     @Autowired
     private UserDao userDao;
+    @Autowired
+    private UserHelper userHelper;
     public User queryByUsername(String username) {
         System.out.println(userDao);
-        return userDao.queryByUsername(username);
+        return userHelper.convert2Model(userDao.queryByUsername(username));
     }
     public User queryByPhone(String phone) {
-        return userDao.queryByPhone(phone);
+        return userHelper.convert2Model(userDao.queryByPhone(phone));
     }
     public User queryByEmail(String email) {
-        return userDao.queryByEmail(email);
+        return userHelper.convert2Model(userDao.queryByEmail(email));
     }
     public List<User> queryByDepartment(int department) {
-        return userDao.queryByDepartment(department);
+        return userDao.queryByDepartment(department).stream().
+                map(userHelper::convert2Model).collect(Collectors.toList());
     }
     public User queryBy3Unique(String username, String phone, String email) {
         Map<String, String> map = new HashMap<>();
         map.put("username", username);
         map.put("phone", phone);
         map.put("email", email);
-        return userDao.queryBy3Unique(map);
+        return userHelper.convert2Model(userDao.queryBy3Unique(map));
     }
     public User queryByUnique(String unique) {
-        return userDao.queryByUnique(unique);
+        return userHelper.convert2Model(userDao.queryByUnique(unique));
     }
     public int insertUser(User user) {
-        return userDao.insertUser(user);
+        return userDao.insertUser(userHelper.convert2Do(user));
     }
 }
