@@ -2,6 +2,7 @@ package cn.edu.bupt.user.dao.repository;
 
 import cn.edu.bupt.user.dao.UserDao;
 import cn.edu.bupt.user.model.User;
+import org.springframework.stereotype.Repository;
 
 import java.util.HashMap;
 import java.util.List;
@@ -13,6 +14,8 @@ import java.util.Map;
  * Create by xiongyu
  * Date: 2020/9/9 1:38 下午
  */
+
+@Repository
 public class UserRepository {
     private UserDao userDao;
     public User queryByUsername(String username) {

@@ -7,10 +7,12 @@
     <!--定义别名-->
     <typeAliases>
         <package name="cn.edu.bupt.admin.model"/>
+        <package name="cn.edu.bupt.user.dao"/>
     </typeAliases>
 
     <!--mapper映射文件-->
     <mappers>
         <package name="cn.edu.bupt.admin.dao"/>
+        <package name="cn.edu.bupt.user.dao"/>
     </mappers>
 </configuration>

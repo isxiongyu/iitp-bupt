@@ -135,4 +135,22 @@ public class User {
     public void setUserStatus(UserStatus userStatus) {
         this.userStatus = userStatus;
     }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "userId='" + userId + '\'' +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", email='" + email + '\'' +
+                ", phone='" + phone + '\'' +
+                ", star=" + star +
+                ", report=" + report +
+                ", userDescription='" + userDescription + '\'' +
+                ", sex='" + sex + '\'' +
+                ", year=" + year +
+                ", department=" + department +
+                ", userStatus=" + userStatus +
+                '}';
+    }
 }
