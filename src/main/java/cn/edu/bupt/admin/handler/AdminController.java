@@ -5,6 +5,7 @@ import cn.edu.bupt.admin.service.AdminService;
 import cn.edu.bupt.exception.AdminAccessPermissionException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.portlet.ModelAndView;
 import org.springframework.web.portlet.bind.annotation.ResourceMapping;
 
@@ -15,7 +16,7 @@ public class AdminController {
     @Autowired
     AdminService adminService;
 
-    @ResourceMapping("login.do")
+    @RequestMapping("/login.do")
     public ModelAndView login(Admin admin, HttpServletRequest request) throws AdminAccessPermissionException {
         ModelAndView modelAndView = new ModelAndView();
         adminService.login(admin);

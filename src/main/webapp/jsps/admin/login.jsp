@@ -12,7 +12,7 @@
 </head>
 <body>
 <div align="center">
-    <form action="${pageContext.request.contextPath}login.do" method="get">
+    <form action="${pageContext.request.contextPath}/login.do" method="post">
         <p>管理员登录</p>
         <table>
             <tr>

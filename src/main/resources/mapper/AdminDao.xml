@@ -5,6 +5,6 @@
 
 <mapper namespace="cn.edu.bupt.admin.dao.AdminDao">
     <select id="selectByAdminName" resultType="Admin">
-        select admin_name, password from admin where name=#{name};
+        select admin_name, password from admin where admin_name=#{adminName};
     </select>
 </mapper>
