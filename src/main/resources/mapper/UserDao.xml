@@ -13,7 +13,6 @@
         <result property="year" column="year"/>
         <result property="department" column="department"/>
         <result property="userStatus" column="user_status"/>
-<!--        <collection property="campanyEntity" resultMap="dao.daoInterface.CampanyDao.CampanyMap" />-->
     </resultMap>
 
     <!-- 可以将sql语句独立出来，然后引用 -->
@@ -57,5 +56,4 @@
         SELECT <include refid="selectMap"/>
         FROM user where username=#{unique} or phone=#{unique} or email=#{unique}
     </select>
-
 </mapper>

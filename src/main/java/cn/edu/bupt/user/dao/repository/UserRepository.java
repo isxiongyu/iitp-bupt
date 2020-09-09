@@ -2,6 +2,7 @@ package cn.edu.bupt.user.dao.repository;
 
 import cn.edu.bupt.user.dao.UserDao;
 import cn.edu.bupt.user.model.User;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.HashMap;
@@ -17,8 +18,10 @@ import java.util.Map;
 
 @Repository
 public class UserRepository {
+    @Autowired
     private UserDao userDao;
     public User queryByUsername(String username) {
+        System.out.println(userDao);
         return userDao.queryByUsername(username);
     }
     public User queryByPhone(String phone) {

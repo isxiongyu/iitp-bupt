@@ -8,10 +8,8 @@
         <package name="cn.edu.bupt.admin.model"/>
         <package name="cn.edu.bupt.user.dao"/>
     </typeAliases>
-
     <!--mapper映射文件-->
     <mappers>
-        <package name="cn.edu.bupt.admin.dao"/>
-        <package name="cn.edu.bupt.user.dao"/>
+        <package name="mapper"/>
     </mappers>
 </configuration>
