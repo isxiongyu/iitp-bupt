@@ -34,4 +34,14 @@ public enum UserStatus {
     public void setCode(String code) {
         this.code = code;
     }
+
+    public static UserStatus getByCode(String code) {
+        UserStatus[] values = UserStatus.values();
+        for (UserStatus userStatus : values) {
+            if (userStatus.getCode().equals(code)) {
+                return userStatus;
+            }
+        }
+        return null;
+    }
 }

@@ -1,16 +1,16 @@
-package cn.edu.bupt.user.model;
+package cn.edu.bupt.user.dao;
 
 import cn.edu.bupt.enums.UserStatus;
 
 import java.util.Date;
 
 /**
- * ClassName: User
+ * ClassName: UserDo
  * Description:
  * Create by xiongyu
- * Date: 2020/9/5 6:50 下午
+ * Date: 2020/9/9 1:17 下午
  */
-public class User {
+public class UserDo {
     private String userId;
     private String username;
     private String password;
@@ -38,7 +38,7 @@ public class User {
     /**
      * 用户状态（未激活，已激活，黑名单）
      */
-    private UserStatus userStatus;
+    private String userStatus;
 
     public String getUserId() {
         return userId;
@@ -128,11 +128,11 @@ public class User {
         this.department = department;
     }
 
-    public UserStatus getUserStatus() {
+    public String getUserStatus() {
         return userStatus;
     }
 
-    public void setUserStatus(UserStatus userStatus) {
+    public void setUserStatus(String userStatus) {
         this.userStatus = userStatus;
     }
 }

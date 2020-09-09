@@ -3,6 +3,7 @@ package cn.edu.bupt.user.dao;
 import cn.edu.bupt.user.model.User;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * ClassName: UserDap
@@ -15,6 +16,7 @@ public interface UserDao {
     User queryByPhone(String phone);
     User queryByEmail(String email);
     List<User> queryByDepartment(int department);
-    User queryByUnique(String username, String phone, String email);
+    User queryBy3Unique(Map<String, String> params);
+    User queryByUnique(String unique);
     int insertUser(User user);
 }
