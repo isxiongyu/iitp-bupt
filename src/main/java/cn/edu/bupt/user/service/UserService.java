@@ -2,6 +2,7 @@ package cn.edu.bupt.user.service;
 
 import cn.edu.bupt.common.CommonHelper;
 import cn.edu.bupt.enums.UserStatus;
+import cn.edu.bupt.exception.RegisterException;
 import cn.edu.bupt.user.dao.repository.UserRepository;
 import cn.edu.bupt.user.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,11 +26,18 @@ public class UserService {
     @Autowired
     private CommonHelper commonHelper;
 
-    public int register(User user) {
+    public void register(User user) throws RegisterException {
         user.setUserId(commonHelper.getUUID());
         user.setUserStatus(UserStatus.UN_ACTIVE);
-        int res = userRepository.insertUser(user);
-        return res;
+        int res;
+        try {
+            res = userRepository.insertUser(user);
+        } catch (Exception e) {
+            throw new RegisterException("用户名已存在，或者邮箱、手机号已被注册");
+        }
+        if (res != 1) {
+            throw new RegisterException("注册失败");
+        }
     }
 
 }
