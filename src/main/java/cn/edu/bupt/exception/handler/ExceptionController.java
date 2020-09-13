@@ -1,12 +1,11 @@
 package cn.edu.bupt.exception.handler;
 
 import cn.edu.bupt.common.CommonHelper;
+import cn.edu.bupt.exception.ActiveException;
 import cn.edu.bupt.exception.LoginException;
 import cn.edu.bupt.exception.RegisterException;
 import cn.edu.bupt.exception.SystemException;
 import cn.edu.bupt.user.model.User;
-import com.alibaba.fastjson.JSON;
-import org.apache.commons.beanutils.BeanUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,9 +14,6 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
-import java.lang.reflect.InvocationTargetException;
-import java.util.Arrays;
-import java.util.Map;
 
 /**
  * ClassName: ExceptionController
@@ -55,6 +51,22 @@ public class ExceptionController {
         mv.addObject("password", password);
         mv.addObject("loginError", exceptionMsg);
         mv.setViewName("user/login");
+        return mv;
+    }
+
+    @ExceptionHandler(SystemException.class)
+    public ModelAndView systemException(SystemException ex) {
+        ModelAndView mv = new ModelAndView();
+        mv.setViewName("forward:/WEB-INF/exception/systemException.jsp");
+        return mv;
+    }
+
+    @ExceptionHandler(ActiveException.class)
+    public ModelAndView activeException(ActiveException ex) {
+        ModelAndView mv = new ModelAndView();
+        String exceptionMsg = ex.getMessage();
+        mv.addObject("activeError", exceptionMsg);
+        mv.setViewName("forward:/WEB-INF/exception/activeException.jsp");
         return mv;
     }
 }
