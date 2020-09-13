@@ -1,7 +1,5 @@
 package cn.edu.bupt.user.dao;
 
-import cn.edu.bupt.user.model.User;
-
 import java.util.List;
 import java.util.Map;
 
@@ -21,4 +19,5 @@ public interface UserDao {
     int insertUser(UserDo user);
     UserDo queryByCode(String code);
     void updateStatusByCode(Map<String, String> params);
+    void updatePasswordByEmail(Map<String, String> params);
 }

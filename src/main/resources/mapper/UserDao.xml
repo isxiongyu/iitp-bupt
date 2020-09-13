@@ -48,7 +48,7 @@
     <!-- 根据3unique查询用户 -->
     <select id="queryBy3Unique" parameterType="Map" resultMap="UserMap">
         SELECT <include refid="selectMap"/>
-        FROM user where username=#{username} and phone=#{phone} and email=#{phone}
+        FROM user where username=#{username} or phone=#{phone} or email=#{phone}
     </select>
 
     <!-- 根据unique查询用户 -->
@@ -75,5 +75,8 @@
 
     <update id="updateStatusByCode" parameterType="Map">
         update user set user_status=#{status} where code=#{code}
+    </update>
+    <update id="updatePasswordByEmail" parameterType="Map">
+        update user set password=#{newPassword} where email=#{email}
     </update>
 </mapper>

@@ -60,4 +60,10 @@ public class UserRepository {
         params.put("status", status);
         userDao.updateStatusByCode(params);
     }
+    public void updatePasswordByEmail(String email, String newPassword) {
+        Map<String, String> params = new HashMap<>();
+        params.put("email", email);
+        params.put("newPassword", newPassword);
+        userDao.updatePasswordByEmail(params);
+    }
 }

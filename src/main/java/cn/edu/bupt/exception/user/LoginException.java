@@ -1,4 +1,4 @@
-package cn.edu.bupt.exception;
+package cn.edu.bupt.exception.user;
 
 /**
  * ClassName: LoginException

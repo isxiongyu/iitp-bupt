@@ -2,11 +2,9 @@ package cn.edu.bupt.admin.service;
 
 import cn.edu.bupt.admin.dao.AdminDao;
 import cn.edu.bupt.admin.model.Admin;
-import cn.edu.bupt.exception.AdminAccessPermissionException;
+import cn.edu.bupt.exception.admin.AdminAccessPermissionException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import javax.annotation.Resource;
 
 @Service
 public class AdminServiceImpl implements AdminService{

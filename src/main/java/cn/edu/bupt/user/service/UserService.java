@@ -1,9 +1,6 @@
 package cn.edu.bupt.user.service;
 
-import cn.edu.bupt.exception.ActiveException;
-import cn.edu.bupt.exception.LoginException;
-import cn.edu.bupt.exception.RegisterException;
-import cn.edu.bupt.exception.SystemException;
+import cn.edu.bupt.exception.user.*;
 import cn.edu.bupt.user.model.User;
 
 /**
@@ -17,7 +14,7 @@ public interface UserService {
      * 用户注册
      * @param user
      */
-    void register(User user) throws RegisterException;
+    void register(User user) throws RegisterException, SystemException;
 
     /**
      * 注册成功发送激活邮件
@@ -27,8 +24,17 @@ public interface UserService {
      * 用户激活
      * @param code 激活码
      */
-    void active(String code) throws ActiveException;
+    void active(String code) throws ActiveException, SystemException;
 
-    void login(String name, String password) throws LoginException;
+    /**
+     * 用户登录
+     * @param name 用户名/邮箱/电话
+     * @param password 密码
+     * @return
+     * @throws LoginException
+     */
+    User login(String name, String password) throws LoginException, SystemException;
+
+    User modPassword(User user, String oldPassword, String newPassword) throws ModPasswordException, SystemException;
 
 }

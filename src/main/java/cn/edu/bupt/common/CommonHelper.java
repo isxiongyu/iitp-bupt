@@ -1,6 +1,6 @@
 package cn.edu.bupt.common;
 
-import cn.edu.bupt.exception.SystemException;
+import cn.edu.bupt.exception.user.SystemException;
 import com.alibaba.fastjson.JSON;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.beanutils.ConvertUtils;

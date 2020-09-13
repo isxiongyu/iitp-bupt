@@ -1,10 +1,7 @@
 package cn.edu.bupt.user.handler;
 
 import cn.edu.bupt.common.CommonHelper;
-import cn.edu.bupt.exception.ActiveException;
-import cn.edu.bupt.exception.LoginException;
-import cn.edu.bupt.exception.RegisterException;
-import cn.edu.bupt.exception.SystemException;
+import cn.edu.bupt.exception.user.*;
 import cn.edu.bupt.user.model.User;
 import cn.edu.bupt.user.service.impl.UserServiceImpl;
 import com.alibaba.druid.util.StringUtils;
@@ -18,6 +15,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -101,7 +99,7 @@ public class UserController {
     }
 
     @RequestMapping("/active.do")
-    public ModelAndView active(String code) throws ActiveException {
+    public ModelAndView active(String code) throws ActiveException, SystemException {
         ModelAndView mv = new ModelAndView();
         userService.active(code);
         mv.setViewName("user/success");
@@ -109,7 +107,7 @@ public class UserController {
     }
 
     @RequestMapping("/login.do")
-    public ModelAndView login(String name, String password) throws LoginException {
+    public ModelAndView login(String name, String password, HttpServletRequest request) throws LoginException, SystemException {
         ModelAndView mv = new ModelAndView();
         if (StringUtils.isEmpty(name)) {
             mv.addObject("nameError", "用户名不能为空");
@@ -122,8 +120,22 @@ public class UserController {
             mv.setViewName("user/login");
             return mv;
         }
-        userService.login(name, password);
+        User user = userService.login(name, password);
+        request.getSession().setAttribute("user", user);
         mv.setViewName("main");
+        return mv;
+    }
+
+    @RequestMapping("/modPassword.do")
+    public ModelAndView modPassword(String oldPassword, String newPassword, HttpServletRequest request) throws UserAccessPermissionException, ModPasswordException, SystemException {
+        ModelAndView mv = new ModelAndView();
+        User user = (User) request.getSession().getAttribute("user");
+        if (user == null) {
+            throw new UserAccessPermissionException("您还未登录，请先登录");
+        }
+        user = userService.modPassword(user, oldPassword, newPassword);
+        request.getSession().setAttribute("user", user);
+        mv.setViewName("修改成功页面");
         return mv;
     }
 }

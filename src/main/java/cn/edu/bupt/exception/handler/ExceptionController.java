@@ -1,10 +1,10 @@
 package cn.edu.bupt.exception.handler;
 
 import cn.edu.bupt.common.CommonHelper;
-import cn.edu.bupt.exception.ActiveException;
-import cn.edu.bupt.exception.LoginException;
-import cn.edu.bupt.exception.RegisterException;
-import cn.edu.bupt.exception.SystemException;
+import cn.edu.bupt.exception.user.ActiveException;
+import cn.edu.bupt.exception.user.LoginException;
+import cn.edu.bupt.exception.user.RegisterException;
+import cn.edu.bupt.exception.user.SystemException;
 import cn.edu.bupt.user.model.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
