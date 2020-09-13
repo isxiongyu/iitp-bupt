@@ -40,6 +40,11 @@ public class UserDo {
      */
     private String userStatus;
 
+    /**
+     * 激活码
+     */
+    private String code;
+
     public String getUserId() {
         return userId;
     }
@@ -134,5 +139,13 @@ public class UserDo {
 
     public void setUserStatus(String userStatus) {
         this.userStatus = userStatus;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
     }
 }

@@ -10,7 +10,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <head>
     <base href="<%=basePath%>">
     
-    <title>My JSP 'register.jsp' starting page</title>
+    <title>My JSP 'login.jsp' starting page</title>
     
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
@@ -24,6 +24,34 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   </head>
   
   <body>
-  	注册成功，请前往相应的邮箱进行账号激活
+	<div align="center">
+		<h2>北邮闲置商品交易平台用户登录页面</h2>
+		<font color="red">${loginError }</font>
+		<form action="<c:url value='/user/login.do'/>" method="POST">
+			<table align="center">
+				<tr>
+					<td>
+						用户名：
+					</td>
+					<td>
+						<input type="text" name="name" value="${name }"/>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						密码：
+					</td>
+					<td>
+						<input type="text" name="password" value="${password }"/>
+					</td>
+				</tr>
+				<tr>
+					<td colspan="3" align="center">
+						<input type="submit" value="登录"/>
+					</td>
+				</tr>
+			</table>
+		</form>
+	</div>
   </body>
 </html>

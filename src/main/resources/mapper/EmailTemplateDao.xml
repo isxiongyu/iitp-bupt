@@ -1,0 +1,14 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.edu.bupt.emailTemplate.dao.EmailTemplateDao">
+
+    <!-- 可以将sql语句独立出来，然后引用 -->
+    <sql id="selectMap">
+        smtp, username, password, froms, subject, content
+    </sql>
+
+    <select id="queryEmailTemplate" resultType="EmailTemplate">
+        SELECT <include refid="selectMap"/>
+        FROM email_template
+    </select>
+
+</mapper>

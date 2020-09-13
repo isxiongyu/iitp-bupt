@@ -51,4 +51,13 @@ public class UserRepository {
     public int insertUser(User user) {
         return userDao.insertUser(userHelper.convert2Do(user));
     }
+    public User queryByCode(String code) {
+        return userHelper.convert2Model(userDao.queryByCode(code));
+    }
+    public void updateStatusByCode(String code, String status) {
+        Map<String, String> params = new HashMap<>();
+        params.put("code", code);
+        params.put("status", status);
+        userDao.updateStatusByCode(params);
+    }
 }

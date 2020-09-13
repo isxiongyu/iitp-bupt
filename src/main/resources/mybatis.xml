@@ -11,6 +11,7 @@
     <typeAliases>
         <package name="cn.edu.bupt.admin.model"/>
         <package name="cn.edu.bupt.user.dao"/>
+        <package name="cn.edu.bupt.emailTemplate.model"/>
     </typeAliases>
     <!--mapper映射文件-->
     <mappers>

@@ -48,6 +48,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<input type="password" name="password" value="${user.password }"/>
 					</td>
 					<td>
+						<font color="red">${passwordErrorMsg }</font>
 					</td>
 				</tr>
 				<tr>

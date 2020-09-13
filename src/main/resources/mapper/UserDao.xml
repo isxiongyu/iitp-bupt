@@ -61,10 +61,19 @@
     <insert id="insertUser" parameterType="UserDo">
         INSERT into user
         (user_id, username, password, email, phone, star,
-        report, user_description, sex, year, department, user_status)
+        report, user_description, sex, year, department, user_status, code)
         values
         (#{userId}, #{username}, #{password}, #{email},
         #{phone}, #{star}, #{report}, #{userDescription},
-        #{sex}, #{year}, #{department}, #{userStatus})
+        #{sex}, #{year}, #{department}, #{userStatus}, #{code})
     </insert>
+
+    <select id="queryByCode" parameterType="String" resultMap="UserMap">
+        SELECT <include refid="selectMap"/>
+        FROM user where code=#{code}
+    </select>
+
+    <update id="updateStatusByCode" parameterType="Map">
+        update user set user_status=#{status} where code=#{code}
+    </update>
 </mapper>

@@ -15,6 +15,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class UserHelper {
     public User convert2Model(UserDo userDo) {
+        if (userDo == null) return null;
         User user = new User();
         user.setUserId(userDo.getUserId());
         user.setDepartment(userDo.getDepartment());
@@ -28,10 +29,12 @@ public class UserHelper {
         user.setUsername(userDo.getUsername());
         user.setYear(userDo.getYear());
         user.setUserStatus(UserStatus.getByCode(userDo.getUserStatus()));
+        user.setCode(userDo.getCode());
         return user;
     }
 
     public UserDo convert2Do(User user) {
+        if (user == null) return null;
         UserDo userDo = new UserDo();
         userDo.setUserId(user.getUserId());
         userDo.setDepartment(user.getDepartment());
@@ -45,6 +48,7 @@ public class UserHelper {
         userDo.setUsername(user.getUsername());
         userDo.setYear(user.getYear());
         userDo.setUserStatus(user.getUserStatus().getCode());
+        userDo.setCode(user.getCode());
         return userDo;
     }
 

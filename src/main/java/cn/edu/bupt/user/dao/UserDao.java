@@ -19,4 +19,6 @@ public interface UserDao {
     UserDo queryBy3Unique(Map<String, String> params);
     UserDo queryByUnique(String unique);
     int insertUser(UserDo user);
+    UserDo queryByCode(String code);
+    void updateStatusByCode(Map<String, String> params);
 }
