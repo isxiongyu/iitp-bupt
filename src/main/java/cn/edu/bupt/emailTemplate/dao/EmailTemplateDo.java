@@ -1,14 +1,14 @@
-package cn.edu.bupt.emailTemplate.model;
+package cn.edu.bupt.emailTemplate.dao;
 
 import cn.edu.bupt.enums.EmailType;
 
 /**
- * ClassName: EmailTemplate
+ * ClassName: EmailTemplateDo
  * Description:
  * Create by xiongyu
- * Date: 2020/9/11 2:51 下午
+ * Date: 2020/9/15 12:08 上午
  */
-public class EmailTemplate {
+public class EmailTemplateDo {
     private int id;
     private String smtp;
     private String username;
@@ -16,7 +16,7 @@ public class EmailTemplate {
     private String froms;
     private String subject;
     private String content;
-    private EmailType emailType;
+    private String emailType;
 
     public int getId() {
         return id;
@@ -74,11 +74,11 @@ public class EmailTemplate {
         this.content = content;
     }
 
-    public EmailType getEmailType() {
+    public String getEmailType() {
         return emailType;
     }
 
-    public void setEmailType(EmailType emailType) {
+    public void setEmailType(String emailType) {
         this.emailType = emailType;
     }
 }

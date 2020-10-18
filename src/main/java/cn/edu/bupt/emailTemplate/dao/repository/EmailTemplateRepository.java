@@ -1,7 +1,9 @@
 package cn.edu.bupt.emailTemplate.dao.repository;
 
 import cn.edu.bupt.emailTemplate.dao.EmailTemplateDao;
+import cn.edu.bupt.emailTemplate.helper.EmailHelper;
 import cn.edu.bupt.emailTemplate.model.EmailTemplate;
+import cn.edu.bupt.enums.EmailType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -20,7 +22,10 @@ public class EmailTemplateRepository {
     @Autowired
     private EmailTemplateDao emailTemplateDao;
 
-    public List<EmailTemplate> queryEmailTemplate() {
-        return emailTemplateDao.queryEmailTemplate();
+    @Autowired
+    private EmailHelper emailHelper;
+
+    public EmailTemplate queryEmailTemplateByType(EmailType emailType) {
+        return emailHelper.convert2Model(emailTemplateDao.queryEmailTemplateByType(emailType.getCode()));
     }
 }

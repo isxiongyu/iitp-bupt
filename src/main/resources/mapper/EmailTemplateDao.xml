@@ -3,12 +3,12 @@
 
     <!-- 可以将sql语句独立出来，然后引用 -->
     <sql id="selectMap">
-        smtp, username, password, froms, subject, content
+        smtp, username, password, froms, subject, content, email_type
     </sql>
 
-    <select id="queryEmailTemplate" resultType="EmailTemplate">
+    <select id="queryEmailTemplateByType" resultType="EmailTemplateDo">
         SELECT <include refid="selectMap"/>
-        FROM email_template
+        FROM email_template where email_type=#{emailType}
     </select>
 
 </mapper>

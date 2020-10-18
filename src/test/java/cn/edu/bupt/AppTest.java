@@ -13,5 +13,7 @@ public class AppTest
     @Test
     public void shouldAnswerWithTrue()
     {
+        String s = "小叶是猪！";
+        System.out.println(s.length());
     }
 }

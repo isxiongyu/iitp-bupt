@@ -1,6 +1,7 @@
 package cn.edu.bupt.user.handler;
 
 import cn.edu.bupt.common.CommonHelper;
+import cn.edu.bupt.enums.EmailType;
 import cn.edu.bupt.exception.user.*;
 import cn.edu.bupt.user.model.User;
 import cn.edu.bupt.user.service.impl.UserServiceImpl;
@@ -88,9 +89,9 @@ public class UserController {
         userService.register(user);
         executor.execute(() -> {
             try {
-                userService.sendMail(user);
+                userService.sendMail(user, EmailType.REGISTER);
             } catch (SystemException e) {
-                logger.error("发送激活邮件失败");
+                logger.error("发送激活邮件失败, 失败信息：" + e.getMessage());
             }
         });
         mv.setViewName("user/success");
@@ -138,4 +139,8 @@ public class UserController {
         mv.setViewName("修改成功页面");
         return mv;
     }
+//    public ModelAndView sendVerifyCode(String email) {
+//        ModelAndView mv = new ModelAndView();
+//
+//    }
 }

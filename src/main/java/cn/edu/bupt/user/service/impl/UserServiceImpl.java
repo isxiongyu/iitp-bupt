@@ -5,6 +5,7 @@ import cn.edu.bupt.common.MailUtil;
 import cn.edu.bupt.common.model.Mail;
 import cn.edu.bupt.emailTemplate.dao.repository.EmailTemplateRepository;
 import cn.edu.bupt.emailTemplate.model.EmailTemplate;
+import cn.edu.bupt.enums.EmailType;
 import cn.edu.bupt.enums.UserStatus;
 import cn.edu.bupt.exception.user.*;
 import cn.edu.bupt.user.dao.repository.UserRepository;
@@ -20,7 +21,8 @@ import javax.mail.MessagingException;
 import javax.mail.Session;
 import java.text.MessageFormat;
 import java.util.Arrays;
-import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * ClassName: UserService
@@ -33,6 +35,8 @@ import java.util.List;
 public class UserServiceImpl implements UserService {
 
     Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
+
+    ExecutorService executor = Executors.newFixedThreadPool(6);
 
     @Autowired
     private UserRepository userRepository;
@@ -72,27 +76,34 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void sendMail(User user) throws SystemException {
-        List<EmailTemplate> emailTemplates = emailTemplateRepository.queryEmailTemplate();
-        if (emailTemplates == null) {
-            throw new SystemException("查询邮件模板为空");
-        }
-        EmailTemplate emailTemplate = emailTemplates.get(0);
-        String smtp = emailTemplate.getSmtp();
-        String username = emailTemplate.getUsername();
-        String password = emailTemplate.getPassword();
-        String from = emailTemplate.getFrom();
-        String subject = emailTemplate.getSubject();
-        String to = user.getEmail();
-        String content = emailTemplate.getContent();
-        content = MessageFormat.format(content, user.getCode());
-        Session session = MailUtil.creatSession(smtp, username, password);
+    public void sendMail(User user, EmailType emailType) throws SystemException {
         try {
-            Mail mail = new Mail(session, from, to, subject, content);
-            MailUtil.send(mail);
-        } catch (MessagingException e) {
-            logger.error("user = " +  user + "发送邮件错误");
-            throw new SystemException("发送邮件错误");
+            EmailTemplate emailTemplate = emailTemplateRepository.queryEmailTemplateByType(emailType);
+            if (emailTemplate == null) {
+                logger.error("emailType = {}, 查询邮件模板为空", emailType.toString());
+                throw new SystemException("查询邮件模板为空");
+            }
+            String smtp = emailTemplate.getSmtp();
+            String username = emailTemplate.getUsername();
+            String password = emailTemplate.getPassword();
+            String from = emailTemplate.getFroms();
+            String subject = emailTemplate.getSubject();
+            String to = user.getEmail();
+            String content = emailTemplate.getContent();
+            content = MessageFormat.format(content, user.getCode());
+            Session session = MailUtil.creatSession(smtp, username, password);
+            try {
+                Mail mail = new Mail(session, from, to, subject, content);
+                MailUtil.send(mail);
+            } catch (MessagingException e) {
+                logger.error("user = " +  user + "发送邮件错误");
+                throw new SystemException("发送邮件错误 e = " + Arrays.toString(e.getStackTrace()));
+            }
+        } catch (SystemException se) {
+            throw se;
+        } catch (Exception e) {
+            logger.error("系统异常，user = {}, emailType = {}", user.toString(), emailType.toString());
+            throw new SystemException();
         }
     }
 
@@ -148,6 +159,30 @@ public class UserServiceImpl implements UserService {
             userRepository.updatePasswordByEmail(user.getEmail(), newPassword);
             user.setPassword(newPassword);
             return user;
+        } catch (Exception e) {
+            logger.error("系统性异常：{}", Arrays.toString(e.getStackTrace()));
+            throw new SystemException();
+        }
+    }
+
+    @Override
+    public void sendEmailVerifyCode(String email) throws ForgetPasswordException, SystemException {
+        try {
+            User user = userRepository.queryByEmail(email);
+            if (user == null) {
+                throw new ForgetPasswordException("输入邮箱不存在");
+            }
+            user.setCode(commonHelper.getUUID().substring(0, 6));
+            userRepository.updateUser(user);
+            executor.execute(() -> {
+                try {
+                    sendMail(user, EmailType.FORGET_PASSWORD);
+                } catch (SystemException e) {
+                    logger.error("发送验证码邮件失败, 失败信息：" + e.getMessage());
+                }
+            });
+        } catch (ForgetPasswordException fpe) {
+            throw fpe;
         } catch (Exception e) {
             logger.error("系统性异常：{}", Arrays.toString(e.getStackTrace()));
             throw new SystemException();

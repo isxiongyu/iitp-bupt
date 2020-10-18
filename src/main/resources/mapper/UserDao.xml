@@ -79,4 +79,10 @@
     <update id="updatePasswordByEmail" parameterType="Map">
         update user set password=#{newPassword} where email=#{email}
     </update>
+    <update id="updateUser" parameterType="UserDo">
+        update user set username=#{userDo.username}, password=#{userDo.password},
+        email=#{userDo.email}, phone=#{userDo.phone}, star=#{userDo.user}, report=#{userDo.report},
+        user_description=#{userDo.userDescription}, sex=#{userDo.sex}, year=#{userDo.year},
+        department=#{userDo.department}, user_status=#{userStatus}, code=#{code} where user_id=#{userDo.userId}
+    </update>
 </mapper>

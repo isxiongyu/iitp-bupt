@@ -66,4 +66,7 @@ public class UserRepository {
         params.put("newPassword", newPassword);
         userDao.updatePasswordByEmail(params);
     }
+    public void updateUser(User user) {
+        userDao.updateUser(userHelper.convert2Do(user));
+    }
 }

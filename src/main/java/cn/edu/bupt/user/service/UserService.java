@@ -1,5 +1,6 @@
 package cn.edu.bupt.user.service;
 
+import cn.edu.bupt.enums.EmailType;
 import cn.edu.bupt.exception.user.*;
 import cn.edu.bupt.user.model.User;
 
@@ -19,7 +20,7 @@ public interface UserService {
     /**
      * 注册成功发送激活邮件
      */
-    void sendMail(User user) throws SystemException;
+    void sendMail(User user, EmailType emailType) throws SystemException;
     /**
      * 用户激活
      * @param code 激活码
@@ -37,4 +38,5 @@ public interface UserService {
 
     User modPassword(User user, String oldPassword, String newPassword) throws ModPasswordException, SystemException;
 
+    void sendEmailVerifyCode(String email) throws ForgetPasswordException, SystemException;
 }
