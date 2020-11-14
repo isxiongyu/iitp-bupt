@@ -18,10 +18,6 @@ public interface UserService {
     void register(User user) throws RegisterException, SystemException;
 
     /**
-     * 注册成功发送激活邮件
-     */
-    void sendMail(User user, EmailType emailType) throws SystemException;
-    /**
      * 用户激活
      * @param code 激活码
      */
@@ -36,7 +32,23 @@ public interface UserService {
      */
     User login(String name, String password) throws LoginException, SystemException;
 
-    User modPassword(User user, String oldPassword, String newPassword) throws ModPasswordException, SystemException;
+    /**
+     * 修改密码
+     * @param email 邮箱
+     * @param newPassword 新密码
+     * @param confirmPassword 确认密码
+     * @throws ModPasswordException
+     * @throws SystemException
+     */
+    void modPassword(String email, String newPassword, String confirmPassword) throws ModPasswordException, SystemException;
 
-    void sendEmailVerifyCode(String email) throws ForgetPasswordException, SystemException;
+    /**
+     * 发送修改密码验证码至邮箱
+     * @param email 发送验证码邮箱
+     * @throws ModPasswordException
+     * @throws SystemException
+     */
+    void sendEmailVerifyCode(String email) throws ModPasswordException, SystemException;
+
+    void verifyCode(String email, String code) throws ModPasswordException, SystemException;
 }

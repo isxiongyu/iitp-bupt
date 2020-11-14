@@ -1,10 +1,6 @@
 package cn.edu.bupt.user.service.impl;
 
 import cn.edu.bupt.common.CommonHelper;
-import cn.edu.bupt.common.MailUtil;
-import cn.edu.bupt.common.model.Mail;
-import cn.edu.bupt.emailTemplate.dao.repository.EmailTemplateRepository;
-import cn.edu.bupt.emailTemplate.model.EmailTemplate;
 import cn.edu.bupt.enums.EmailType;
 import cn.edu.bupt.enums.UserStatus;
 import cn.edu.bupt.exception.user.*;
@@ -17,9 +13,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.mail.MessagingException;
-import javax.mail.Session;
-import java.text.MessageFormat;
 import java.util.Arrays;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -44,9 +37,6 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private CommonHelper commonHelper;
 
-    @Autowired
-    private EmailTemplateRepository emailTemplateRepository;
-
     /**
      * 用户注册service
      * @param user 用户
@@ -70,39 +60,8 @@ public class UserServiceImpl implements UserService {
         } catch (RegisterException re) {
             throw re;
         } catch (Exception e) {
+            logger.error("系统性异常：{}", e.getMessage());
             logger.error("系统性异常：{}", Arrays.toString(e.getStackTrace()));
-            throw new SystemException();
-        }
-    }
-
-    @Override
-    public void sendMail(User user, EmailType emailType) throws SystemException {
-        try {
-            EmailTemplate emailTemplate = emailTemplateRepository.queryEmailTemplateByType(emailType);
-            if (emailTemplate == null) {
-                logger.error("emailType = {}, 查询邮件模板为空", emailType.toString());
-                throw new SystemException("查询邮件模板为空");
-            }
-            String smtp = emailTemplate.getSmtp();
-            String username = emailTemplate.getUsername();
-            String password = emailTemplate.getPassword();
-            String from = emailTemplate.getFroms();
-            String subject = emailTemplate.getSubject();
-            String to = user.getEmail();
-            String content = emailTemplate.getContent();
-            content = MessageFormat.format(content, user.getCode());
-            Session session = MailUtil.creatSession(smtp, username, password);
-            try {
-                Mail mail = new Mail(session, from, to, subject, content);
-                MailUtil.send(mail);
-            } catch (MessagingException e) {
-                logger.error("user = " +  user + "发送邮件错误");
-                throw new SystemException("发送邮件错误 e = " + Arrays.toString(e.getStackTrace()));
-            }
-        } catch (SystemException se) {
-            throw se;
-        } catch (Exception e) {
-            logger.error("系统异常，user = {}, emailType = {}", user.toString(), emailType.toString());
             throw new SystemException();
         }
     }
@@ -123,6 +82,7 @@ public class UserServiceImpl implements UserService {
         } catch (ActiveException ae) {
             throw ae;
         } catch (Exception e) {
+            logger.error("系统性异常：{}", e.getMessage());
             logger.error("系统性异常：{}", Arrays.toString(e.getStackTrace()));
             throw new SystemException();
         }
@@ -144,46 +104,76 @@ public class UserServiceImpl implements UserService {
         } catch (LoginException e1) {
             throw e1;
         } catch (Exception e) {
+            logger.error("系统性异常：{}", e.getMessage());
             logger.error("系统性异常：{}", Arrays.toString(e.getStackTrace()));
             throw new SystemException();
         }
     }
 
     @Override
-    public User modPassword(User user, String oldPassword, String newPassword) throws ModPasswordException, SystemException {
-        if (StringUtils.equals(user.getPassword(), oldPassword)) {
-            logger.info("用户User = {}, oldPassword = {}, 旧密码输入错误", user, oldPassword);
-            throw new ModPasswordException("旧密码输入错误");
-        }
+    public void modPassword(String email, String newPassword, String confirmPassword) throws ModPasswordException, SystemException {
         try {
-            userRepository.updatePasswordByEmail(user.getEmail(), newPassword);
-            user.setPassword(newPassword);
-            return user;
+            if (newPassword == null || confirmPassword == null) {
+                throw new ModPasswordException("请输入新密码或者确认密码");
+            }
+            if (!StringUtils.equals(newPassword, confirmPassword)) {
+                throw new ModPasswordException("两次输入的密码不一致");
+            }
+            userRepository.updatePasswordByEmail(email, newPassword);
+        } catch (ModPasswordException mpe) {
+            throw mpe;
         } catch (Exception e) {
+            logger.error("系统性异常：{}", e.getMessage());
             logger.error("系统性异常：{}", Arrays.toString(e.getStackTrace()));
             throw new SystemException();
         }
     }
 
     @Override
-    public void sendEmailVerifyCode(String email) throws ForgetPasswordException, SystemException {
+    public void sendEmailVerifyCode(String email) throws ModPasswordException, SystemException {
         try {
             User user = userRepository.queryByEmail(email);
             if (user == null) {
-                throw new ForgetPasswordException("输入邮箱不存在");
+                logger.info("输入邮箱" + email +"不存在");
+                throw new ModPasswordException("输入邮箱不存在");
             }
             user.setCode(commonHelper.getUUID().substring(0, 6));
             userRepository.updateUser(user);
             executor.execute(() -> {
                 try {
-                    sendMail(user, EmailType.FORGET_PASSWORD);
+                    commonHelper.sendMail(user, EmailType.FORGET_PASSWORD);
                 } catch (SystemException e) {
                     logger.error("发送验证码邮件失败, 失败信息：" + e.getMessage());
                 }
             });
-        } catch (ForgetPasswordException fpe) {
-            throw fpe;
+        } catch (ModPasswordException mpe) {
+            throw mpe;
         } catch (Exception e) {
+            logger.error("系统性异常：{}", e.getMessage());
+            logger.error("系统性异常：{}", Arrays.toString(e.getStackTrace()));
+            throw new SystemException();
+        }
+    }
+
+    @Override
+    public void verifyCode(String email, String code) throws ModPasswordException, SystemException {
+        try {
+            User user = userRepository.queryByEmail(email);
+            if (user == null) {
+                throw new ModPasswordException("邮箱不存在");
+            }
+            if (!StringUtils.equals(user.getCode(), code)) {
+                throw new ModPasswordException("验证码错误");
+            }
+            if (user.getCode() == null) {
+                throw new ModPasswordException("请先获取验证码");
+            }
+            user.setCode(null);
+            userRepository.updateUser(user);
+        } catch (ModPasswordException mpe) {
+            throw mpe;
+        } catch (Exception e) {
+            logger.error("系统性异常：{}", e.getMessage());
             logger.error("系统性异常：{}", Arrays.toString(e.getStackTrace()));
             throw new SystemException();
         }

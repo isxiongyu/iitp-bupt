@@ -25,36 +25,35 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   
   <body>
 	<div align="center">
-		<h2>北邮闲置商品交易平台用户登录页面</h2>
-		<font color="red">${loginError }</font>
-		<form action="<c:url value='/user/login.do'/>" method="POST">
+		<h2>北邮闲置商品交易平台修改密码</h2>
+		<form action="<c:url value='/user/sendVerifyCode.do'/>" method="POST">
 			<table align="center">
 				<tr>
 					<td>
-						用户名：
+						邮箱：
 					</td>
 					<td>
-						<input type="text" name="name" value="${name }"/>
+						<input id="email" type="text" name="email" value="${email }"/>
 					</td>
-				</tr>
-				<tr>
-					<td>
-						密码：
-					</td>
-					<td>
-						<input type="password" name="password" value="${password }"/>
-					</td>
-					<td>
-						<a href="<c:url value='/jsps/user/sendCode.jsp'/>">忘记密码？</a>
-					</td>
-				</tr>
-				<tr>
 					<td colspan="3" align="center">
-						<input type="submit" value="登录"/>
+						<input type="submit" value="点击发送验证码">
+<%--						<button onclick="send()">点击发送验证码</button>--%>
 					</td>
 				</tr>
 			</table>
 		</form>
 	</div>
+<%--  	<script type="application/javascript">--%>
+<%--		function send() {--%>
+<%--			var email = document.getElementById("email").value;--%>
+<%--			var href = window.document.location.href;--%>
+<%--			var pathname = window.document.location.pathname;--%>
+<%--			var contextPath = href.substring(0, href.indexOf(pathname));--%>
+<%--			var url = contextPath + "/iitp/user/sendVerifyCode.do?email=" + email;--%>
+<%--			var request = new XMLHttpRequest();--%>
+<%--			request.open("GET", url, true);--%>
+<%--			request.send();--%>
+<%--		}--%>
+<%--	</script>--%>
   </body>
 </html>
