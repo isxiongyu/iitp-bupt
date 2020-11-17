@@ -4,6 +4,8 @@ import cn.edu.bupt.common.CommonHelper;
 import cn.edu.bupt.enums.EmailType;
 import cn.edu.bupt.enums.UserStatus;
 import cn.edu.bupt.exception.user.*;
+import cn.edu.bupt.goods.dao.repository.GoodsRepository;
+import cn.edu.bupt.goods.model.Goods;
 import cn.edu.bupt.user.dao.repository.UserRepository;
 import cn.edu.bupt.user.model.User;
 import cn.edu.bupt.user.service.UserService;
@@ -35,6 +37,9 @@ public class UserServiceImpl implements UserService {
     private UserRepository userRepository;
 
     @Autowired
+    private GoodsRepository goodsRepository;
+
+    @Autowired
     private CommonHelper commonHelper;
 
     /**
@@ -60,8 +65,7 @@ public class UserServiceImpl implements UserService {
         } catch (RegisterException re) {
             throw re;
         } catch (Exception e) {
-            logger.error("系统性异常：{}", e.getMessage());
-            logger.error("系统性异常：{}", Arrays.toString(e.getStackTrace()));
+            logger.error("系统性异常: ", e);
             throw new SystemException();
         }
     }
@@ -82,8 +86,7 @@ public class UserServiceImpl implements UserService {
         } catch (ActiveException ae) {
             throw ae;
         } catch (Exception e) {
-            logger.error("系统性异常：{}", e.getMessage());
-            logger.error("系统性异常：{}", Arrays.toString(e.getStackTrace()));
+            logger.error("系统性异常: ", e);
             throw new SystemException();
         }
     }
@@ -104,8 +107,7 @@ public class UserServiceImpl implements UserService {
         } catch (LoginException e1) {
             throw e1;
         } catch (Exception e) {
-            logger.error("系统性异常：{}", e.getMessage());
-            logger.error("系统性异常：{}", Arrays.toString(e.getStackTrace()));
+            logger.error("系统性异常: ", e);
             throw new SystemException();
         }
     }
@@ -123,8 +125,7 @@ public class UserServiceImpl implements UserService {
         } catch (ModPasswordException mpe) {
             throw mpe;
         } catch (Exception e) {
-            logger.error("系统性异常：{}", e.getMessage());
-            logger.error("系统性异常：{}", Arrays.toString(e.getStackTrace()));
+            logger.error("系统性异常: ", e);
             throw new SystemException();
         }
     }
@@ -149,8 +150,7 @@ public class UserServiceImpl implements UserService {
         } catch (ModPasswordException mpe) {
             throw mpe;
         } catch (Exception e) {
-            logger.error("系统性异常：{}", e.getMessage());
-            logger.error("系统性异常：{}", Arrays.toString(e.getStackTrace()));
+            logger.error("系统性异常: ", e);
             throw new SystemException();
         }
     }
@@ -173,8 +173,22 @@ public class UserServiceImpl implements UserService {
         } catch (ModPasswordException mpe) {
             throw mpe;
         } catch (Exception e) {
-            logger.error("系统性异常：{}", e.getMessage());
-            logger.error("系统性异常：{}", Arrays.toString(e.getStackTrace()));
+            logger.error("系统性异常: ", e);
+            throw new SystemException();
+        }
+    }
+
+    @Override
+    public void addGoods(Goods goods) throws SystemException, AddGoodsException {
+        try {
+            if (goods == null) {
+                throw new AddGoodsException("添加的书籍为null");
+            }
+            goodsRepository.insertGoods(goods);
+        } catch (AddGoodsException age) {
+            throw age;
+        } catch (Exception e) {
+            logger.error("系统性异常: ", e);
             throw new SystemException();
         }
     }

@@ -1,0 +1,45 @@
+<!--<?xml version="1.0" encoding="UTF-8"?>-->
+<!--<!DOCTYPE generatorConfiguration-->
+<!--        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"-->
+<!--        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">-->
+
+<!--<generatorConfiguration>-->
+<!--    <properties resource="jdbc.properties"/>-->
+<!--    <context id="MySQL" defaultModelType="flat">-->
+<!--        <property name="javaFileEncoding" value="UTF-8"/>-->
+<!--        &lt;!&ndash; 格式化java代码 &ndash;&gt;-->
+<!--        <property name="javaFormatter" value="org.mybatis.generator.api.dom.DefaultJavaFormatter"/>-->
+<!--        &lt;!&ndash; 格式化XML代码 &ndash;&gt;-->
+<!--        <property name="xmlFormatter" value="org.mybatis.generator.api.dom.DefaultXmlFormatter"/>-->
+<!--        &lt;!&ndash; 数据库链接URL、用户名、密码 &ndash;&gt;-->
+<!--        <jdbcConnection driverClass="${jdbc.driver}"-->
+<!--                        connectionURL="${jdbc.url}"-->
+<!--                        userId="${jdbc.username}"-->
+<!--                        password="${jdbc.password}">-->
+<!--        </jdbcConnection>-->
+<!--        &lt;!&ndash;默认false，把JDBC DECIMAL 和 NUMERIC 类型解析为 Integer-->
+<!--                true，把JDBC DECIMAL 和 NUMERIC 类型解析为java.math.BigDecimal&ndash;&gt;-->
+<!--        <javaTypeResolver>-->
+<!--            <property name="forceBigDecimals" value="true" />-->
+<!--        </javaTypeResolver>-->
+<!--        <javaModelGenerator targetPackage="cn.edu.bupt.goods.dao" targetProject="/Users/xiongyu/Documents/javaProjects/iitp-bupt/src/main/java">-->
+<!--            <property name="enableSubPackages" value="true"/>-->
+<!--            &lt;!&ndash; 从数据库返回的值被清理前后的空格  &ndash;&gt;-->
+<!--            <property name="trimStrings" value="true" />-->
+<!--        </javaModelGenerator>-->
+<!--        &lt;!&ndash;对应的mapper.xml文件  &ndash;&gt;-->
+<!--        <sqlMapGenerator targetPackage="mapper" targetProject="/Users/xiongyu/Documents/javaProjects/iitp-bupt/src/main/resources">-->
+<!--            <property name="enableSubPackages" value="true"/>-->
+<!--        </sqlMapGenerator>-->
+<!--        &lt;!&ndash; 对应的Mapper接口类文件 &ndash;&gt;-->
+<!--        <javaClientGenerator type="XMLMAPPER" targetPackage="cn.edu.bupt.goods.dao" targetProject="/Users/xiongyu/Documents/javaProjects/iitp-bupt/src/main/java">-->
+<!--            <property name="enableSubPackages" value="true"/>-->
+<!--        </javaClientGenerator>-->
+<!--        <table tableName="category" mapperName="CategoryDao"-->
+<!--               domainObjectName="CategoryDo" enableCountByExample="false"-->
+<!--               enableUpdateByExample="false" enableDeleteByExample="false"-->
+<!--               enableSelectByExample="false" selectByExampleQueryId="false">-->
+<!--            <property name="useActualColumnNames" value="false"/>-->
+<!--        </table>-->
+<!--    </context>-->
+<!--</generatorConfiguration>-->

@@ -24,21 +24,39 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   </head>
   
   <body>
-<%--	<table border="1" bordercolor="red" cellspacing="0"  align="center" width="100%" height="100%">--%>
-<%--		<tr style="height:120px">--%>
-<%--			<td colspan="2">--%>
-<%--    			<iframe frameborder="0"  height="100%" width="100%" src="<c:url value='/jsps/top.jsp'/>" name="top"></iframe>--%>
-<%--    		</td>--%>
-<%--		</tr>--%>
-<%--		<tr>--%>
-<%--    		<td style="width:160px;" valign="top" align="center">--%>
+	<table border="1" bordercolor="red" cellspacing="0"  align="center" width="100%" height="100%">
+		<tr style="height:50px">
+			<td colspan="3" >
+				<h1 style="color: red" align="center">欢迎光临北邮闲置物品交易平台</h1>
+			</td>
+		</tr>
+		<tr style="height:120px">
+			<td>
+				<c:choose>
+					<c:when test="${empty sessionScope.user}">
+						<a href="<c:url value='/jsps/user/register.jsp'/>">还没有账号？点击注册</a></br>
+						<a href="<c:url value='/jsps/user/login.jsp'/>">已有账号？点击登录</a>
+					</c:when>
+					<c:otherwise>
+						<span>欢迎用户${sessionScope.user.username}</span>
+<%--						<a href="<c:url value='/user/quit.do'/>" target="_parent">退出</a>--%>
+<%--						<a href="<c:url value='/cart/myCart.do?uid=${sessionScope.user.uid }'/>" target="right">我的购物车</a>--%>
+<%--						<a href="<c:url value='/order/myOrder.do?uid=${sessionScope.user.uid }'/>" target="right">我的订单</a>--%>
+					</c:otherwise>
+				</c:choose>
+    		</td>
+			<td>
+				<a href="<c:url value='/user/addGoodsLink.do'/>">发布物品</a>
+			</td>
+		</tr>
+		<tr>
+    		<td style="width:160px;" valign="top" align="center">
 <%--    			<iframe frameborder="0" height="100%" width="100%" src="<c:url value='/book/selAllCategory.do'/>" name="left"></iframe>--%>
-<%--    		</td>--%>
-<%--    		<td >--%>
+    		</td>
+    		<td >
 <%--    			<iframe frameborder="0" height="100%" width="100%" src="<c:url value='/jsps/right.jsp'/>" name="right"></iframe>--%>
-<%--    		</td>--%>
-<%--    	</tr>--%>
-<%--	</table>--%>
-  欢迎光临
+    		</td>
+    	</tr>
+	</table>
   </body>
 </html>

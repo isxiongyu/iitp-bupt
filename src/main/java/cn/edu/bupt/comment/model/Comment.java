@@ -1,6 +1,6 @@
 package cn.edu.bupt.comment.model;
 
-import cn.edu.bupt.goods.model.Goods;
+import cn.edu.bupt.goods.model.GoodsVo;
 import cn.edu.bupt.user.model.User;
 
 import java.util.Date;
@@ -22,5 +22,5 @@ public class Comment {
     /**
      * 评论商品
      */
-    private Goods good;
+    private GoodsVo good;
 }

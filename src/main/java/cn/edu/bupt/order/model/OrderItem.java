@@ -1,6 +1,6 @@
 package cn.edu.bupt.order.model;
 
-import cn.edu.bupt.goods.model.Goods;
+import cn.edu.bupt.goods.model.GoodsVo;
 import cn.edu.bupt.user.model.User;
 
 import java.util.Date;
@@ -29,5 +29,5 @@ public class OrderItem {
     /**
      * 商品
      */
-    private Goods goods;
+    private GoodsVo goods;
 }

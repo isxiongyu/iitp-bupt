@@ -27,8 +27,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   	<div align="center">
 		<h2>北邮闲置商品交易平台用户注册页面</h2>
 		<font color="red">${registerError }</font>
-		<form action="<c:url value='/user/register.do'/>" method="POST">
-			<table align="center">
+		<table align="center">
+			<form action="<c:url value='/user/register.do'/>" method="POST">
 				<tr>
 					<td>
 						用户名：
@@ -117,26 +117,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<font color="red">${departmentErrorMsg }</font>
 					</td>
 				</tr>
-<%--				密码：<input type="password" name="password" value="${user.password }"/><br/>--%>
-<%--				邮箱：<input type="text" name="email" value="${user.email}"/>--%>
-<%--				<font color="red">${emailErrorMsg }</font></br>--%>
-<%--				手机号：<input type="text" name="phone" value="${user.phone }"/>--%>
-<%--				<font color="red">${phoneErrorMsg }</font></br>--%>
-<%--				用户描述：<input type="text" name="userDescription" value="${user.userDescription }"/></br>--%>
-<%--				性别：男<input type="radio" name="sex" value="M"/>--%>
-<%--				女<input type="radio" name="sex" value="F"/>--%>
-<%--				<font color="red">${sexErrorMsg }</font></br>--%>
-<%--				入学年份：<input type="date" min="1970-01-01" max="2099-12-31" name="year" value="${user.year}">--%>
-<%--				<font color="red">${yearErrorMsg }</font></br>--%>
-<%--				公寓号：<input type="text" name="department" value="${user.department}">--%>
-<%--				<font color="red">${departmentErrorMsg }</font></br>--%>
 				<tr>
 					<td colspan="3" align="center">
 						<input type="submit" value="注册"/>
 					</td>
 				</tr>
-			</table>
-		</form>
+			</form>
+		</table>
 	</div>
   </body>
 </html>

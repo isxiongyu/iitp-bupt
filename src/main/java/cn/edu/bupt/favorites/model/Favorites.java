@@ -1,6 +1,6 @@
 package cn.edu.bupt.favorites.model;
 
-import cn.edu.bupt.goods.model.Goods;
+import cn.edu.bupt.goods.model.GoodsVo;
 import cn.edu.bupt.user.model.User;
 
 /**
@@ -11,6 +11,6 @@ import cn.edu.bupt.user.model.User;
  */
 public class Favorites {
     private String id;
-    private Goods good;
+    private GoodsVo good;
     private User user;
 }

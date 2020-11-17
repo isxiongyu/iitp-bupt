@@ -12,15 +12,15 @@ public class CategorySecond {
     /**
      * 所属一级目录
      */
-    private Category category;
+    private int categoryId;
 
     public CategorySecond() {
     }
 
-    public CategorySecond(int id, String name, Category category) {
+    public CategorySecond(int id, String name, int categoryId) {
         this.id = id;
         this.name = name;
-        this.category = category;
+        this.categoryId = categoryId;
     }
 
     public int getId() {
@@ -39,20 +39,11 @@ public class CategorySecond {
         this.name = name;
     }
 
-    public Category getCategory() {
-        return category;
+    public int getCategoryId() {
+        return categoryId;
     }
 
-    public void setCategory(Category category) {
-        this.category = category;
-    }
-
-    @Override
-    public String toString() {
-        return "CategorySecond{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", category=" + category +
-                '}';
+    public void setCategoryId(int categoryId) {
+        this.categoryId = categoryId;
     }
 }

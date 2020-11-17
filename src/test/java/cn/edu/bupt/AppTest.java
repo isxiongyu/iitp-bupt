@@ -5,15 +5,14 @@ import org.junit.Test;
 /**
  * Unit test for simple App.
  */
-public class AppTest 
-{
+public class AppTest {
     /**
      * Rigorous Test :-)
      */
     @Test
-    public void shouldAnswerWithTrue()
-    {
+    public void shouldAnswerWithTrue() {
         String s = "小叶是猪！";
-        System.out.println(s.length());
+        String basePath = this.getClass().getResource("upload.properties").getPath();
+        System.out.println(basePath);
     }
 }

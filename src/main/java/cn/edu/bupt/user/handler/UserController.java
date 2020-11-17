@@ -3,8 +3,12 @@ package cn.edu.bupt.user.handler;
 import cn.edu.bupt.common.CommonHelper;
 import cn.edu.bupt.enums.EmailType;
 import cn.edu.bupt.exception.user.*;
+import cn.edu.bupt.goods.dao.repository.GoodsRepository;
+import cn.edu.bupt.goods.model.Category;
+import cn.edu.bupt.goods.model.Goods;
+import cn.edu.bupt.goods.sevice.CategoryService;
 import cn.edu.bupt.user.model.User;
-import cn.edu.bupt.user.service.impl.UserServiceImpl;
+import cn.edu.bupt.user.service.UserService;
 import com.alibaba.druid.util.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,10 +18,16 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.Arrays;
+import java.util.List;
+import java.util.Properties;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -35,17 +45,31 @@ public class UserController {
     Logger logger = LoggerFactory.getLogger(UserController.class);
 
     @Autowired
-    UserServiceImpl userService;
+    private UserService userService;
 
     @Autowired
-    CommonHelper commonHelper;
+    private CategoryService categoryService;
 
-    ExecutorService executor = Executors.newFixedThreadPool(6);
+    @Autowired
+    private GoodsRepository goodsRepository;
 
+    @Autowired
+    private CommonHelper commonHelper;
+
+    private ExecutorService executor = Executors.newFixedThreadPool(6);
+
+    /**
+     * 注册
+     * @param user
+     * @param br
+     * @return
+     * @throws RegisterException
+     * @throws SystemException
+     */
     @RequestMapping("/register.do")
     public ModelAndView register(@Validated User user, BindingResult br) throws RegisterException, SystemException {
         ModelAndView mv = new ModelAndView();
-        mv.addObject(user);
+        mv.addObject("user", user);
         try {
             int errorCount = br.getErrorCount();
             if (errorCount > 0) {
@@ -81,7 +105,7 @@ public class UserController {
                     mv.addObject("sexErrorMsg", sexErrorMsg);
                 }
                 if (departmentError != null) {
-                    String departmentErrorMsg = departmentError.getDefaultMessage();
+                    String departmentErrorMsg = "请填写争正确的公寓号";
                     mv.addObject("departmentErrorMsg", departmentErrorMsg);
                 }
                 mv.setViewName("user/register");
@@ -101,13 +125,19 @@ public class UserController {
         } catch (RegisterException re) {
             throw re;
         } catch (Exception e) {
-            logger.error("系统性异常：{}", e.getMessage());
-            logger.error("系统性异常：{}", Arrays.toString(e.getStackTrace()));
+            logger.error("系统性异常: ", e);
             throw new SystemException();
         }
         return mv;
     }
 
+    /**
+     * 激活
+     * @param code 激活码
+     * @return
+     * @throws ActiveException
+     * @throws SystemException
+     */
     @RequestMapping("/active.do")
     public ModelAndView active(String code) throws ActiveException, SystemException {
         ModelAndView mv = new ModelAndView();
@@ -116,14 +146,22 @@ public class UserController {
         } catch (ActiveException ae) {
             throw ae;
         } catch (Exception e) {
-            logger.error("系统性异常：{}", e.getMessage());
-            logger.error("系统性异常：{}", Arrays.toString(e.getStackTrace()));
+            logger.error("系统性异常: ", e);
             throw new SystemException();
         }
         mv.setViewName("user/success");
         return mv;
     }
 
+    /**
+     * 登录
+     * @param name
+     * @param password
+     * @param request
+     * @return
+     * @throws LoginException
+     * @throws SystemException
+     */
     @RequestMapping("/login.do")
     public ModelAndView login(String name, String password, HttpServletRequest request) throws LoginException, SystemException {
         ModelAndView mv = new ModelAndView();
@@ -144,14 +182,20 @@ public class UserController {
         } catch (LoginException le) {
             throw le;
         } catch (Exception e) {
-            logger.error("系统性异常：{}", e.getMessage());
-            logger.error("系统性异常：{}", Arrays.toString(e.getStackTrace()));
+            logger.error("系统性异常: ", e);
             throw new SystemException();
         }
         mv.setViewName("main");
         return mv;
     }
 
+    /**
+     * 修改密码发送验证码
+     * @param email
+     * @return
+     * @throws ModPasswordException
+     * @throws SystemException
+     */
     @RequestMapping("/sendVerifyCode.do")
     public ModelAndView sendVerifyCode(String email) throws ModPasswordException, SystemException {
         ModelAndView mv = new ModelAndView();
@@ -161,8 +205,7 @@ public class UserController {
         } catch (ModPasswordException me) {
             throw me;
         } catch (Exception e) {
-            logger.error("系统性异常：{}", e.getMessage());
-            logger.error("系统性异常：{}", Arrays.toString(e.getStackTrace()));
+            logger.error("系统性异常: ", e);
             throw new SystemException();
         }
         mv.setViewName("/user/verifyCode");
@@ -170,6 +213,13 @@ public class UserController {
         return mv;
     }
 
+    /**
+     * 修改密码  验证  验证码
+     * @param email
+     * @param code
+     * @return
+     * @throws SystemException
+     */
     @RequestMapping("/verify.do")
     public ModelAndView verify(String email, String code) throws SystemException {
         ModelAndView mv = new ModelAndView();
@@ -185,13 +235,21 @@ public class UserController {
             mv.addObject("ModPasswordError", mpe.getMessage());
             mv.setViewName("/user/verifyCode");
         } catch (Exception e) {
-            logger.error("系统性异常：{}", e.getMessage());
-            logger.error("系统性异常：{}", Arrays.toString(e.getStackTrace()));
+            logger.error("系统性异常: ", e);
             throw new SystemException();
         }
         return mv;
     }
 
+    /**
+     * 修改密码
+     * @param email
+     * @param newPassword
+     * @param confirmPassword
+     * @return
+     * @throws ModPasswordException
+     * @throws SystemException
+     */
     @RequestMapping("/modPassword.do")
     public ModelAndView modPassword(String email, String newPassword, String confirmPassword) throws ModPasswordException, SystemException {
         ModelAndView mv = new ModelAndView();
@@ -206,13 +264,102 @@ public class UserController {
         } catch (ModPasswordException mpe) {
             throw mpe;
         } catch (Exception e) {
-            logger.error("系统性异常：{}", e.getMessage());
-            logger.error("系统性异常：{}", Arrays.toString(e.getStackTrace()));
+            logger.error("系统性异常: ", e);
             throw new SystemException();
         }
         mv.addObject("name", email);
         mv.addObject("password", newPassword);
         mv.setViewName("/user/login");
+        return mv;
+    }
+
+    @RequestMapping("/addGoodsLink.do")
+    public ModelAndView addGoodsLink(HttpServletRequest request) throws SystemException, LoginException {
+        ModelAndView mv = new ModelAndView();
+        User user = (User) request.getSession().getAttribute("user");
+        if (user == null) {
+            throw new LoginException("请先登录后再添加物品");
+        }
+        List<Category> categories = categoryService.selectAll();
+        mv.addObject("categories", categories);
+        mv.setViewName("/user/addGoods");
+        return mv;
+    }
+
+    @RequestMapping("/addGoods.do")
+    public ModelAndView addGoods(@Validated Goods goods, BindingResult br,
+                                 MultipartFile image, HttpServletRequest request) throws SystemException, LoginException {
+        ModelAndView mv = new ModelAndView();
+        mv.addObject("goods", goods);
+        List<Category> categories = categoryService.selectAll();
+        mv.addObject("categories", categories);
+        User user = (User) request.getSession().getAttribute("user");
+        if (user == null) {
+            throw new LoginException("请先登录后再添加物品");
+        }
+        try {
+            int errorCount = br.getErrorCount();
+            if (errorCount > 0) {
+                FieldError nameError = br.getFieldError("name");
+                FieldError descriptionError = br.getFieldError("description");
+                FieldError priceError = br.getFieldError("price");
+                FieldError restError = br.getFieldError("rest");
+                FieldError goodCategoryIdError = br.getFieldError("goodCategoryId");
+                FieldError categorySecondIdError = br.getFieldError("categorySecondId");
+                FieldError imgError = br.getFieldError("img");
+                if (nameError != null) {
+                    String nameErrorMsg = nameError.getDefaultMessage();
+                    mv.addObject("nameErrorMsg", nameErrorMsg);
+                }
+                if (descriptionError != null) {
+                    String descriptionMsg = descriptionError.getDefaultMessage();
+                    mv.addObject("descriptionMsg", descriptionMsg);
+                }
+                if (priceError != null) {
+                    String priceErrorMsg = "请输入正确的价格";
+                    mv.addObject("priceErrorMsg", priceErrorMsg);
+                }
+                if (restError != null) {
+                    String restErrorMsg = "请输入正确的物品数量";
+                    mv.addObject("restErrorMsg", restErrorMsg);
+                }
+                if (goodCategoryIdError != null) {
+                    String goodCategoryIdErrorMsg = goodCategoryIdError.getDefaultMessage();
+                    mv.addObject("goodCategoryIdErrorMsg", goodCategoryIdErrorMsg);
+                }
+                if (categorySecondIdError != null) {
+                    String categorySecondIdErrorMsg = categorySecondIdError.getDefaultMessage();
+                    mv.addObject("categorySecondIdErrorMsg", categorySecondIdErrorMsg);
+                }
+                if (imgError != null) {
+                    String imgErrorMsg = imgError.getDefaultMessage();
+                    mv.addObject("imgErrorMsg", imgErrorMsg);
+                }
+                mv.setViewName("user/addGoods");
+                return mv;
+            }
+            goods.setId(commonHelper.getUUID());
+            goods.setOwnerId(user.getUserId());
+            System.out.println(image);
+            if (image == null || image.getSize() == 0) {
+                mv.addObject("imgErrorMsg", "上传的图片有错");
+                mv.setViewName("user/addGoods");
+                return mv;
+            } else {
+                Properties pros = new Properties();
+                pros.load(this.getClass().getResourceAsStream("/upload.properties"));
+                String uploadPath = pros.getProperty("upload_path");
+                String imgName = goods.getId() + ".jpg";
+                File file = new File(uploadPath, imgName);
+                image.transferTo(file);
+                goods.setImg(imgName);
+            }
+            goodsRepository.insertGoods(goods);
+        } catch (Exception e) {
+            logger.error("系统性异常: ", e);
+            throw new SystemException();
+        }
+        mv.setViewName("main");
         return mv;
     }
 }

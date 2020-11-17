@@ -2,6 +2,7 @@ package cn.edu.bupt.user.service;
 
 import cn.edu.bupt.enums.EmailType;
 import cn.edu.bupt.exception.user.*;
+import cn.edu.bupt.goods.model.Goods;
 import cn.edu.bupt.user.model.User;
 
 /**
@@ -50,5 +51,14 @@ public interface UserService {
      */
     void sendEmailVerifyCode(String email) throws ModPasswordException, SystemException;
 
+    /**
+     * 校验验证码
+     * @param email
+     * @param code
+     * @throws ModPasswordException
+     * @throws SystemException
+     */
     void verifyCode(String email, String code) throws ModPasswordException, SystemException;
+
+    void addGoods(Goods goods) throws SystemException, AddGoodsException;
 }
