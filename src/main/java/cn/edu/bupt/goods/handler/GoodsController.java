@@ -26,7 +26,15 @@ public class GoodsController {
     @RequestMapping("/getGoodsByCategoryId.do")
     public ModelAndView getGoodsByCategoryId(int categoryId) throws SystemException {
         ModelAndView mv = new ModelAndView();
-        List<Goods> goodsList = goodsService.queryGoodsByCategoryId(categoryId);
+        List<Goods> goodsList = goodsService.queryGoodsByCategoryIdPage(categoryId, Integer.MAX_VALUE, 1);
+        mv.addObject("goodsList", goodsList);
+        mv.setViewName("main");
+        return mv;
+    }
+    @RequestMapping("/getGoodsByCategoryIdPage.do")
+    public ModelAndView getGoodsByCategoryIdPage(int categoryId, int pageSize, int page) throws SystemException {
+        ModelAndView mv = new ModelAndView();
+        List<Goods> goodsList = goodsService.queryGoodsByCategoryIdPage(categoryId, pageSize, page);
         mv.addObject("goodsList", goodsList);
         mv.setViewName("main");
         return mv;
@@ -34,7 +42,15 @@ public class GoodsController {
     @RequestMapping("/getGoodsByCategorySecondId.do")
     public ModelAndView getGoodsByCategorySecondId(int categorySecondId) throws SystemException {
         ModelAndView mv = new ModelAndView();
-        List<Goods> goodsList = goodsService.queryGoodsByCategoryId(categorySecondId);
+        List<Goods> goodsList = goodsService.queryGoodsByCategorySecondIdPage(categorySecondId, Integer.MAX_VALUE, 1);
+        mv.addObject("goodsList", goodsList);
+        mv.setViewName("main");
+        return mv;
+    }
+    @RequestMapping("/getGoodsByCategorySecondIdPage.do")
+    public ModelAndView getGoodsByCategorySecondIdPage(int categorySecondId, int pageSize, int page) throws SystemException {
+        ModelAndView mv = new ModelAndView();
+        List<Goods> goodsList = goodsService.queryGoodsByCategorySecondIdPage(categorySecondId, pageSize, page);
         mv.addObject("goodsList", goodsList);
         mv.setViewName("main");
         return mv;

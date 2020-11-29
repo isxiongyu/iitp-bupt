@@ -337,7 +337,6 @@ public class UserController {
             }
             goods.setId(commonHelper.getUUID());
             goods.setOwnerId(user.getUserId());
-            System.out.println(image);
             if (image == null || image.getSize() == 0) {
                 mv.addObject("imgErrorMsg", "上传的图片有错");
                 mv.setViewName("user/addGoods");

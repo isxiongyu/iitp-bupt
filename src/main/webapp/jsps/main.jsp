@@ -57,17 +57,29 @@
             </ol>
         </td>
         <td>
-            <c:forEach items="${goodsList}" var="goods">
-                <div>
-                    <img src="<c:url value='/image/${goods.img}'/>" alt="物品图片" height="180" width="150">
-                </div>
-                <ul>
-                    <li>物品名：${goods.name}</li>
-                    <li>物品描述：${goods.description}</li>
-                    <li>价格：${goods.price}元</li>
-                    <li>库存：${goods.rest}件</li>
-                </ul>
-            </c:forEach>
+            <table align="center">
+                <tr>
+                    <c:forEach items="${goodsList}" var="goods">
+                        <td>
+                            <div align="center">
+                                <img src="<c:url value='/image/${goods.img}'/>" alt="物品图片" height="220" width="180">
+                            </div>
+                        </td>
+                    </c:forEach>
+                </tr>
+                <tr align="left">
+                    <c:forEach items="${goodsList}" var="goods">
+                        <td width="180">
+                            <ul>
+                                <li>物品名：${goods.name}</li>
+                                <li>物品描述：${goods.description}</li>
+                                <li>价格：${goods.price}元</li>
+                                <li>库存：${goods.rest}件</li>
+                            </ul>
+                        </td>
+                    </c:forEach>
+                </tr>
+            </table>
         </td>
     </tr>
 </table>
@@ -111,7 +123,7 @@
                 for (var i = 0; i < categoryVos.length; i++) {
                     var myli = document.createElement("li");
                     var myA = document.createElement("a");
-                    var u = "<c:url value='/goods/getGoodsByCategoryId.do'/>" + "?categoryId=" + categoryVos[i].id;
+                    var u = "<c:url value='/goods/getGoodsByCategoryIdPage.do'/>" + "?categoryId=" + categoryVos[i].id + "&pageSize=5&page=1";
                     myA.href = u;
                     myA.innerText = categoryVos[i].name;
                     olCategoryEle.append(myli);
@@ -124,7 +136,7 @@
                         var myASecond = document.createElement("a");
                         myliol.append(myliolli);
                         myliolli.append(myASecond);
-                        var url = "<c:url value='/goods/getGoodsByCategorySecondId.do'/>" + "?categorySecondId=" + categorySeconds[j].id;
+                        var url = "<c:url value='/goods/getGoodsByCategorySecondIdPage.do'/>" + "?categorySecondId=" + categorySeconds[j].id + "&pageSize=5&page=1";
                         myASecond.href = url;
                         myASecond.innerText = categorySeconds[j].name;
                     }

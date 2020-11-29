@@ -47,9 +47,19 @@ public class GoodsServiceImpl implements GoodsService {
     }
 
     @Override
-    public List<Goods> queryGoodsByCategoryId(int categoryId) throws SystemException {
+    public List<Goods> queryGoodsByCategoryIdPage(int categoryId, int pageSize, int page) throws SystemException {
         try {
-            return goodsRepository.queryGoodsByCategoryId(categoryId);
+            return goodsRepository.queryGoodsByCategoryIdPage(categoryId, pageSize, page);
+        } catch (Exception e) {
+            logger.error("系统性异常: ", e);
+            throw new SystemException();
+        }
+    }
+
+    @Override
+    public List<Goods> queryGoodsByCategorySecondIdPage(int categorySecondId, int pageSize, int page) throws SystemException {
+        try {
+            return goodsRepository.queryGoodsBySecondCategoryId(categorySecondId, pageSize, page);
         } catch (Exception e) {
             logger.error("系统性异常: ", e);
             throw new SystemException();

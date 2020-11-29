@@ -15,5 +15,6 @@ import java.util.List;
 public interface GoodsService {
     void addGoods(Goods goods) throws SystemException;
     List<Goods> queryAllGoods() throws SystemException;
-    List<Goods> queryGoodsByCategoryId(int categoryId) throws SystemException;
+    List<Goods> queryGoodsByCategoryIdPage(int categoryId, int pageSize, int page) throws SystemException;
+    List<Goods> queryGoodsByCategorySecondIdPage(int categorySecondId, int pageSize, int page) throws SystemException;
 }

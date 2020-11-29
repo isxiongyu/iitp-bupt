@@ -3,6 +3,7 @@ package cn.edu.bupt.goods.dao;
 import cn.edu.bupt.goods.dao.GoodsDo;
 
 import java.util.List;
+import java.util.Map;
 
 public interface GoodsDao {
     /**
@@ -53,9 +54,9 @@ public interface GoodsDao {
      */
     int updateByPrimaryKey(GoodsDo record);
 
-    List<GoodsDo> selectByCategoryId(int CategoryId);
+    List<GoodsDo> selectByCategoryIdPage(Map<String, Integer> params);
 
-    List<GoodsDo> selectByCategorySecondId(int categorySecondId);
+    List<GoodsDo> selectByCategorySecondIdPage(Map<String, Integer> params);
 
     List<GoodsDo> selectAll();
 }
