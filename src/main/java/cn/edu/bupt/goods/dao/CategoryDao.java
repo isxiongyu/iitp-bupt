@@ -1,7 +1,5 @@
 package cn.edu.bupt.goods.dao;
 
-import cn.edu.bupt.goods.dao.CategoryDo;
-
 import java.util.List;
 
 public interface CategoryDao {

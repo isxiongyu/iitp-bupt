@@ -6,6 +6,9 @@ import cn.edu.bupt.goods.model.Goods;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 /**
  * ClassName: GoodsRepository
  * Description:
@@ -20,5 +23,14 @@ public class GoodsRepository {
     GoodsHelper goodsHelper;
     public void insertGoods(Goods goods) {
         goodsDao.insert(goodsHelper.convert2Do(goods));
+    }
+    public List<Goods> queryAllGoods() {
+        return goodsDao.selectAll().stream().map(goodsHelper::convert2Model).collect(Collectors.toList());
+    }
+    public List<Goods> queryGoodsByCategoryId(int categoryId) {
+        return goodsDao.selectByCategoryId(categoryId).stream().map(goodsHelper::convert2Model).collect(Collectors.toList());
+    }
+    public List<Goods> queryGoodsBySecondCategoryId(int secondCategoryId) {
+        return goodsDao.selectByCategorySecondId(secondCategoryId).stream().map(goodsHelper::convert2Model).collect(Collectors.toList());
     }
 }

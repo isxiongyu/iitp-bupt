@@ -3,10 +3,10 @@ package cn.edu.bupt.user.handler;
 import cn.edu.bupt.common.CommonHelper;
 import cn.edu.bupt.enums.EmailType;
 import cn.edu.bupt.exception.user.*;
-import cn.edu.bupt.goods.dao.repository.GoodsRepository;
 import cn.edu.bupt.goods.model.Category;
 import cn.edu.bupt.goods.model.Goods;
 import cn.edu.bupt.goods.sevice.CategoryService;
+import cn.edu.bupt.goods.sevice.GoodsService;
 import cn.edu.bupt.user.model.User;
 import cn.edu.bupt.user.service.UserService;
 import com.alibaba.druid.util.StringUtils;
@@ -23,9 +23,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
 import java.util.concurrent.ExecutorService;
@@ -51,7 +48,7 @@ public class UserController {
     private CategoryService categoryService;
 
     @Autowired
-    private GoodsRepository goodsRepository;
+    private GoodsService goodsService;
 
     @Autowired
     private CommonHelper commonHelper;
@@ -350,11 +347,12 @@ public class UserController {
                 pros.load(this.getClass().getResourceAsStream("/upload.properties"));
                 String uploadPath = pros.getProperty("upload_path");
                 String imgName = goods.getId() + ".jpg";
-                File file = new File(uploadPath, imgName);
+                String rootPath = request.getSession().getServletContext().getRealPath("/");
+                File file = new File(rootPath + uploadPath, imgName);
                 image.transferTo(file);
                 goods.setImg(imgName);
             }
-            goodsRepository.insertGoods(goods);
+            goodsService.addGoods(goods);
         } catch (Exception e) {
             logger.error("系统性异常: ", e);
             throw new SystemException();

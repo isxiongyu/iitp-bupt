@@ -153,7 +153,7 @@
             var url = contextPath + "<c:url value='/categorySecond/getCategorySecondAJAX.do'/>";//post方式提交
             var data = "categoryId=" + $("#categorySelect").val();
             myXmlHttpRequest.open("post", url, true);//异步方式
-            myXmlHttpRequest.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+            myXmlHttpRequest.setRequestHeader("Content-Type", "application/x-www-form-urlencoded;charset=utf-8");
             //指定回调函数
             myXmlHttpRequest.onreadystatechange = detail;
             //发送

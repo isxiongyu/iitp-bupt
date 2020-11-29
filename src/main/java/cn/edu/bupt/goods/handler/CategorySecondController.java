@@ -4,6 +4,7 @@ import cn.edu.bupt.exception.user.SystemException;
 import cn.edu.bupt.goods.model.CategorySecond;
 import cn.edu.bupt.goods.sevice.CategorySecondService;
 import cn.edu.bupt.goods.sevice.impl.CategorySecondServiceImpl;
+import com.alibaba.fastjson.JSON;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +32,7 @@ public class CategorySecondController {
 
     @ResponseBody
     @RequestMapping("/getCategorySecondAJAX.do")
-    public List<CategorySecond> getCategorySecondAJAX(int categoryId) throws SystemException {
+    public String getCategorySecondAJAX(int categoryId) throws SystemException {
         List<CategorySecond> categorySeconds;
         try {
             categorySeconds = categorySecondService.queryByCategoryId(categoryId);
@@ -40,6 +41,6 @@ public class CategorySecondController {
             logger.error("系统性异常：{}", Arrays.toString(e.getStackTrace()));
             throw new SystemException();
         }
-        return categorySeconds;
+        return JSON.toJSONString(categorySeconds);
     }
 }

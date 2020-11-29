@@ -56,4 +56,6 @@ public interface GoodsDao {
     List<GoodsDo> selectByCategoryId(int CategoryId);
 
     List<GoodsDo> selectByCategorySecondId(int categorySecondId);
+
+    List<GoodsDo> selectAll();
 }

@@ -14,10 +14,10 @@ import javax.validation.constraints.Size;
  */
 public class Goods {
     private String id;
-    @NotNull(message="物品名不能为空")
-    @Size(min=1, max=10, message="物品名长度必须在{min}-{max}内")
+    @NotNull(message = "物品名不能为空")
+    @Size(min = 1, max = 10, message = "物品名长度必须在{min}-{max}内")
     private String name;
-    @Size(max=100, message="物品描述字数长度必须在{min}-{max}内")
+    @Size(max = 100, message = "物品描述字数长度必须在{min}-{max}内")
     private String description;
     private double price;
     private String img;
@@ -25,12 +25,12 @@ public class Goods {
     /**
      * 所属一级分类
      */
-    @NotNull(message="请选择物品所属一级分类")
+    @NotNull(message = "请选择物品所属一级分类")
     private Integer goodCategoryId;
     /**
      * 所属二级分类
      */
-    @NotNull(message="请选择物品所属二级分类")
+    @NotNull(message = "请选择物品所属二级分类")
     private Integer categorySecondId;
     /**
      * 所属用户
@@ -122,5 +122,20 @@ public class Goods {
 
     public void setOwnerId(String ownerId) {
         this.ownerId = ownerId;
+    }
+
+    @Override
+    public String toString() {
+        return "Goods{" +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", price=" + price +
+                ", img='" + img + '\'' +
+                ", rest=" + rest +
+                ", goodCategoryId=" + goodCategoryId +
+                ", categorySecondId=" + categorySecondId +
+                ", ownerId='" + ownerId + '\'' +
+                '}';
     }
 }
